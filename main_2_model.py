@@ -1,16 +1,24 @@
-import cv2
-from PIL import Image
-from deep_translator import GoogleTranslator
+from crewai import Agent, Task, Crew, Process
+from langchain_openai import ChatOpenAI
 import pyttsx3
-import gc
-from transformers import AutoModelForCausalLM, AutoProcessor
 import speech_recognition as sr
+import openai
+from transformers import AutoModelForCausalLM, AutoProcessor
+from deep_translator import GoogleTranslator
+from PIL import Image
+import cv2
+import gc
+
+
 
 # Inicializa o motor de síntese de voz
 engine = pyttsx3.init()
 
 # Inicialização do tradutor
 tradutor = GoogleTranslator(source="tr", target="pt")
+
+# Definir a chave da API da OpenAI
+openai.api_key = ""
 
 # Carregar o modelo e o processor
 model = AutoModelForCausalLM.from_pretrained('ucsahin/TraVisionLM-base', trust_remote_code=True, device_map="cpu")
@@ -106,11 +114,49 @@ def get_speech_input():
         engine.runAndWait()
         return ""
 
-# Função principal
+# Função principal para usar o agente VIVA
 def main():
+    def funcao_posterior(contexto):
+        print("Conversa concluída.")
+
+    viva = Agent(
+        role='Você é um assistente de conversação dedicado a oferecer suporte e informações de forma clara e amigável para pessoas cegas. Sua missão é garantir que as interações sejam sempre positivas e compreensíveis.',
+        goal='Fornecer respostas diretas e acessíveis que ajudem os usuários a navegar em suas necessidades e dúvidas com facilidade.',
+        backstory="""
+        Você é o VIVA, um agente de conversação projetado especialmente para pessoas com deficiencia visual. Seu propósito é criar uma experiência de interação que seja intuitiva e alegre.
+        Foi desenvolvido para garantir que informações sejam transmitidas de forma clara e eficiente, mantendo um tom positivo e encorajador.
+        Seu papel é tornar a comunicação mais acessível e agradável, ajudando os usuários a se sentirem mais conectados e informados.
+        VIVA foi criado pelos alunos da turma do Samsung Innovation Campus no SENAI Anchieta.
+    """,
+        verbose=False,
+        allow_delegation=False,
+        tools=[],
+        max_iter=5,
+        llm=ChatOpenAI(model_name="gpt-4o-mini", temperature=0.5, openai_api_key=openai.api_key)
+    )
+
+    task1 = Task(
+        description="""
+        Forneça respostas claras e objetivas às perguntas feitas pelo usuário. Não adicione detalhes desnecessários.
+        """,
+        agent=viva,
+        expected_output="""
+            Sua resposta deve ser direta e clara. Por exemplo:
+            "[informação]."
+        """,
+        callback=funcao_posterior,
+    )
+
+    crew = Crew(
+        agents=[viva],
+        tasks=[task1],
+        verbose=True,
+        process=Process.sequential,
+    )
+
     while True:
         # Solicita a pergunta do usuário via fala
-        user_input = get_speech_input()
+        user_input = str(input("Fala"))
 
         # Verifica se o usuário quer encerrar o chat
         if 'analisar imagem' in user_input.lower():
@@ -120,17 +166,14 @@ def main():
         if user_input == "":
             continue  # Tenta novamente caso o reconhecimento falhe
 
-        # Envia a pergunta para o modelo
-        response = client.chat.completions.create(
-            model="llama3",
-            messages=[
-                {"role": "user", "content": user_input}
-            ],
-            stream=False
-        )
+        # Atualize a descrição da tarefa com a pergunta do usuário
+        task1.description = user_input
 
-        # Exibe a resposta do modelo
-        message = response.choices[0].message.content
+        # Envia a pergunta para o modelo VIVA
+        response = crew.kickoff()
+
+        # Acessar o resultado da resposta corretamente
+        message = response  # `CrewOutput` pode ser diretamente a resposta
         print("Resposta:", message)
 
         # Sintetizar a resposta do modelo
