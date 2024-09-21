@@ -8,13 +8,14 @@ from deep_translator import GoogleTranslator
 from PIL import Image
 import cv2
 import gc
+import os
 
 # Inicializa o motor de síntese de voz
 engine = pyttsx3.init()
 
 # Inicialização do tradutor
 tradutor = GoogleTranslator(source="tr", target="pt")
-
+os.environ["OPENAI_API_KEY"] = ""
 # Definir a chave da API da OpenAI
 openai.api_key = ""
 
@@ -126,6 +127,7 @@ def main():
         Diogo Inácio e Guilherme Souza, que foram responsáveis pela programação do código. Anne Gomes, de 18 anos, 
         nasceu no bairro do Campo Limpo, em São Paulo. Estudante de Administração, ela se destaca por sua altura de 1,64 metros, cabelos cacheados e pele negra. Diogo Inácio, com 21 anos, é natural de Arapiraca, Alagoas. Ele cursa Análise e Desenvolvimento de Sistemas e tem 1,80 metros de altura, cabelos crespos e pele negra. Guilherme Souza, também de 18 anos, nasceu na Vila Mariana, São Paulo. 
         Estudante de Análise e Desenvolvimento de Sistemas, ele possui 1,80 metros de altura, cabelos crespos e pele negra.
+        Bruno Nogueira Burian, estudante de Análise e Desenvolvimento de Sistemas, possuí 1,80 metros de altura, cabelos lisos e pele branca.
     """,
         verbose=False,
         allow_delegation=False,
@@ -155,7 +157,7 @@ def main():
 
     while True:
         # Solicita a pergunta do usuário via fala
-        user_input = get_speech_input()
+        user_input = input("Me faça uma pergunta:  ")
 
         # Verifica se o usuário quer encerrar o chat
         if 'analisar imagem' in user_input.lower():
