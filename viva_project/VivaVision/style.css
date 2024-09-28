@@ -1,0 +1,938 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --bg-color: #080808;
+    --second-br-color: #131313;
+    --text-color: white;
+    --main-color: #9746d1;
+}
+
+
+
+html {
+    font-size: 60%;
+    overflow-x: hidden;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    overflow: hidden;
+    font-family: 'poppins';
+}
+
+.blob-outer-container {
+    position: fixed;
+    top: 0; /* Certifique-se de que está fixado no topo da página */
+    left: 0; /* Certifique-se de que está fixado à esquerda da página */
+    width: 100vw; /* Ocupa toda a largura da viewport */
+    height: 100vh; /* Ocupa toda a altura da viewport */
+    z-index: -1; /* Coloca o blob atrás de outros elementos */
+    overflow: hidden; /* Garante que o blob não ultrapasse os limites */
+    filter: blur(100px);
+    pointer-events: none; /* Permite que você clique nos elementos acima */
+
+}
+
+.blob-inner-container{
+    border-radius: 99999px;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    min-width: 1000px;
+    overflow: hidden;
+    background-color: #fff;
+    transform: scale(0.6);
+    z-index: -1; /* Ajuste para um valor menor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blob {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    margin: auto;
+    background: conic-gradient(from 0deg, #2E073F,#7A1CAC,#AD49E1,#AD49E1,#7A1CAC,#2E073F, #050C9C,#3572EF, #3572EF, #050C9C );
+    animation: spinBlob 8s linear infinite;
+}
+
+@keyframes spinBlob {
+    0% {
+        transform: rotate(0deg) scale(2);
+    }
+
+    100% {
+        transform: rotate(1turn) scale(2);
+    }
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.1rem 12%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+}
+
+a img {
+    width: 100px;
+    height: 100px;
+}
+.logo {
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.logo span {
+    text-shadow: 0 0 25px var(--main-color);
+}
+
+.navbar a {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-left: 4rem;
+    font-weight: 500;
+    transition: 0.3s ease-in-out;
+    border-bottom: 3px solid transparent;
+    
+}
+
+
+.navbar a:hover{
+    color: var(--main-color);
+    border-bottom: 3px solid var(--main-color);
+    
+}
+
+#menu-icon {
+    font-size: 3.6rem;
+    color: var(--main-color);
+    display: none;
+}
+
+@media (max-width: 768px) {
+    #menu-icon {
+        display: block;
+    }
+    .navbar {
+        display: none; /* ou modificar para um menu adaptável ao mobile */
+    }
+}
+
+section {
+    min-height: 100vh;
+    padding: 5rem 12%;
+    position: relative; /* Para garantir que o conteúdo esteja sobre o blob */
+    background: transparent; /* Remove qualquer fundo que possa ocultar o blob */
+}
+
+/* Animação para o gradiente */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.home {
+    position: relative; /* Para garantir que o pseudo-elemento se sobreponha corretamente */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza horizontalmente */
+    gap: 3rem; /* Ajusta o espaço entre os itens */
+    padding: 10rem 15%; /* Aumente o padding da esquerda para mover a seção para a direita */
+    text-align: center; /* Centraliza o texto dentro da seção */
+    height: 100vh; /* Faz com que a seção ocupe toda a altura da viewport */
+    box-sizing: border-box; /* Inclui o padding no cálculo da largura e altura */
+    margin: 0;
+    margin-top: -5rem; /* Ajustar a margem superior */
+    position: relative; /* Para permitir a sobreposição do pseudo-elemento */
+}
+.home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha o conteúdo à esquerda */
+    text-align: left;
+    justify-content: center;
+    padding: 0; /* Remove qualquer padding adicional que possa estar empurrando o conteúdo */
+    margin-top: 0; /* Ajustar a margem superior */
+}
+
+
+span {
+    color: var(--main-color);
+}
+
+
+.home-content h3 {
+    margin-top: -4rem; /* Menos espaço acima do h3 para aproximar do h1 */
+    margin-bottom: 4rem; /* Mais espaço abaixo do h3 para distanciar do btn-group */
+    font-size: 3.5rem;
+}
+
+
+.logo-img {
+    height: 320px; /* Ajusta a altura da logo para ser um pouco menor que o tamanho da fonte */
+    width: auto; /* Mantém a proporção correta da imagem */
+    vertical-align: middle; /* Centraliza a imagem verticalmente com o texto */
+    display: inline-block; /* Garante que a imagem se comporte como parte do texto */
+}
+
+
+.home-content h1 {
+    font-size: 7rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.home-img {
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 16vw;
+    flex: 1;
+    position: relative; /* Para garantir que a animação se posicione corretamente */
+    overflow: hidden; /* Garante que a imagem não ultrapasse os limites */
+    overflow: visible; /* Permite que a imagem se mova sem ser cortada */
+
+}
+
+.home-img img {
+    position: relative;
+    top: 3rem;
+    width: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.4s ease-in-out;
+    animation: moveAndPulse 8s ease-in-out infinite; /* Animação combinada com tempo mais suave */
+    object-fit: cover;
+    z-index: 1;
+}
+
+.home-img img:hover {
+    transform: scale(1.05);
+}
+
+
+
+@keyframes moveAndPulse {
+    0% { 
+        transform: translate(0, 0) scale(1); 
+    }
+    25% { 
+        transform: translate(40px, -30px) scale(1.1); 
+    }
+    50% { 
+        transform: translate(-40px, 30px) scale(1); 
+    }
+    75% { 
+        transform: translate(30px, 40px) scale(1.1); 
+    }
+    100% { 
+        transform: translate(0, 0) scale(1); 
+    }
+}
+
+
+.home-content p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.8;
+    max-width: 1000px;
+}
+
+
+.social-icons a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    background: transparent;
+    border: 3px solid var(--main-color);
+    font-size: 2.5rem;
+    border-radius: 50%;
+    color: #ffffff;
+    transition: 0.3s ease-in-out;
+    margin: 0 5px; /* Espaço de 15px entre os botões */
+}
+
+.social-icons a:hover {
+    color: var(--text-color);
+    transform: scale(1.3) translateY(-5px);
+    box-shadow: 0 0 25px var(--main-color);
+    background-color: var(--main-color);
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    background: var(--main-color);
+    box-shadow: 0 0 25px var(--main-color);
+    border-radius: 4rem;
+    font-size: 1.6rem;
+    color: white;
+    border: 2px solid transparent;
+    letter-spacing: 0.1rem;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px var(--main-color);
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.btn-group a:nth-of-type(1) {
+    background-color: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    box-shadow: 0 0 25px transparent;
+}
+
+.btn-group a:nth-of-type(1):hover {
+    background-color: var(--main-color);
+    color: white;
+    box-shadow: 0 0 25px var(--main-color);
+    
+}
+.btn-group a:nth-of-type(2) {
+    background-color: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    box-shadow: 0 0 25px transparent;
+}
+
+.btn-group a:nth-of-type(2):hover {
+    background-color: var(--main-color);
+    color: white;
+    box-shadow: 0 0 25px var(--main-color);
+    
+}
+
+.text-animation {
+    font-size: 34px;
+    font-weight: 600;
+    min-width: 280px;
+    
+}
+
+.text-animation span {
+    position: relative;
+    
+}
+
+
+
+.text-animation span::before {
+    content: "assistente!";
+    color: white;
+    animation: words 20s infinite;
+    
+}
+
+.text-animation span::after {
+    content: "";
+    background-color: var(--main-color);
+    position: absolute;
+    width: calc(100% + 8px);
+    height: 100%;
+    border-left: 3px solid var(--bg-color);
+    right: -8px;
+    animation: cursor 0.6s infinite, typing 20s steps(14) infinite;
+    
+}
+
+@keyframes cursor {
+    to {
+        border-left: 2px solid var(--main-color);
+    }
+}
+
+@keyframes words{
+   0%,
+   20%{
+    content: "assistente!"
+   }
+   21%,
+   40%{
+    content: "acessível!"
+   }
+   41%,
+   60%{
+    content: "intuitiva!"
+   }
+   61%,
+   80%{
+    content: "inovadora!"
+   }
+   81%,
+   100%{
+    content: "conectora!"
+   }
+}
+
+@keyframes typing {
+    10%, 15%, 30%, 35%, 50%, 55%, 70%, 75%, 90%, 95% {
+        width: 0;
+    }
+    5%, 20%, 25%, 40%, 45%, 60%, 65%, 80%, 85% {
+        width: calc(100% + 8px);
+    }
+}
+
+.heading{
+    font-size: 6rem;
+    text-align: center;
+    margin: 5rem 0;
+}
+
+.education{
+    padding: 100px 15px;
+    background: var(--second-br-color);
+    position: relative; /* Para garantir que o conteúdo esteja sobre o blob */
+    background: transparent; /* Remove qualquer fundo que possa ocultar o blob */
+    margin-top: -20rem;
+}
+
+.education h2{
+    margin-bottom: 5rem;
+}
+
+.timeline-items{
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.timeline-items::before{
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 100%;
+    background-color: var(--main-color);
+    left: calc(50% - 1px);
+}
+
+.timeline-item{
+    margin-bottom: 40px;
+    width: 100%;
+    position: relative;
+}
+
+.timeline-item:last-child{
+    margin-bottom: 0;
+}
+
+.timeline-item:nth-child(odd){
+    padding-right: calc(50% + 30px);
+    text-align: right;
+}
+
+.timeline-item:nth-child(even){
+    padding-left: calc(50% + 30px);
+}
+
+.timeline-dot{
+    height: 17px;
+    width: 17px;
+    background-color: white;
+    box-shadow: 0 0 25px var(--main-color),
+                0 0 50px var(--main-color);
+    position: absolute;
+    left: calc(50% - 8px);
+    border-radius: 50%;
+    top: 10px;
+}
+
+.timeline-date{
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin: 6px 0 15px;
+}
+
+.timeline-content{
+    background-color: var(--bg-color);
+    border: 3px solid var(--main-color);
+    padding: 30px 50px;
+    border-radius: 4rem;
+    box-shadow: 0 0 10px var(--main-color);
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.timeline-content:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--main-color);
+}
+
+.timeline-content h3 {
+    font-size: 20px;
+    color: white;
+    margin: 0 0 10px;
+    font-weight: bold; /* Define o texto como negrito */
+}
+
+
+.timeline-content p{
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 22px;
+}
+
+::-webkit-scrollbar{
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: var(--main-color);
+}
+
+::-webkit-scrollbar-track{
+    background-color: var(--bg-color);
+    width: 50px;
+}
+
+.services {
+    position: relative; /* Garantir que o pseudo-elemento se sobreponha corretamente */
+    background: var(--bg-color); /* Cor de fundo base */
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
+    justify-content: center; /* Centraliza o conteúdo verticalmente */
+    min-height: 100vh; /* Garante que a seção ocupe a altura total da tela */
+    padding: 10rem 0; /* Ajusta o padding para dar espaço */
+    z-index: 1; /* Certifique-se de que tenha um z-index maior que o do blob */
+    position: relative; /* Para permitir a sobreposição do pseudo-elemento */
+    position: relative; /* Para garantir que o conteúdo esteja sobre o blob */
+    background: transparent; /* Remove qualquer fundo que possa ocultar o blob */
+}
+.services h1 {
+    margin-bottom: 5rem;
+    color: white;
+    text-align: center; /* Centraliza o título */
+    font-size: 30px;
+    margin-top: 20px; /* Ajuste o valor conforme necessário */
+}
+
+.services h2 {
+    margin-bottom: 5rem;
+    color: white;
+    text-align: center; /* Centraliza o título */
+    font-size: 20px;
+}
+
+.services-container {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo da grid */
+    align-items: center;
+    width: 100%; /* Garante que a grid ocupe toda a largura disponível */
+}
+
+.service-box {
+    background-color: var(--main-color);
+    width: 800px; /* Largura aproximada de um celular Android */
+    height: 800px; /* Altura aproximada de um celular Android */
+    border-radius: 3rem;
+    border: 5px solid transparent;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo dentro da box */
+    justify-content: center; /* Centraliza o conteúdo dentro da box */
+}
+
+.service-box:hover {
+    background: white;
+    color: black;
+    border: 5px solid var(--main-color);
+    transform: scale(1.03);
+}
+
+.service-box .service-info {
+    text-align: center; /* Centraliza o texto dentro da service-info */
+    padding: 2rem; /* Ajusta o padding para melhor visualização */
+}
+
+
+
+.testimonials{
+    background: var(--second-br-color);
+    position: relative; /* Para garantir que o conteúdo esteja sobre o blob */
+    background: transparent; /* Remove qualquer fundo que possa ocultar o blob */
+}
+
+.testimonials-box{
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.testimonials .heading{
+    margin-bottom: 5rem;
+}
+
+.wrapper{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Atualizado para 4 colunas */
+    gap: 3rem;
+}
+
+.testimonial-item{
+    min-height: 450px;
+    max-width: 450px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid rgba(238, 238, 238, 0.2);
+    border-radius: 2rem;
+    padding: 30px 60px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1.5rem;
+    color: white;
+    transition: 0.4s ease-in-out;
+}
+
+.testimonial-item:hover{
+    border: 3px solid var(--main-color);
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 0 50px var(--main-color);
+}
+
+.testimonial-item img{
+    width: 15rem;
+    border-radius: 50%;
+    border: 3px solid var(--main-color);
+    box-shadow: 0 0 25px var(--main-color);
+}
+
+.testimonial-item h2{
+    font-size: 2.2rem;
+}
+
+.testimonial-item p{
+    font-size: 1.2rem;
+}
+
+
+.footer{
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding-top: -5rem;
+    padding-bottom: 5rem;
+    background-color: var(--second-br-color);
+    position: relative; /* Para garantir que o conteúdo esteja sobre o blob */
+    background: transparent; /* Remove qualquer fundo que possa ocultar o blob */
+}
+
+.footer ul{
+    margin-top: 0;
+    padding: 0;
+    font-size: 10px;
+    line-height: 1.6;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.footer ul li a{
+    color: white;
+    border-bottom: 3px solid transparent;
+    transition: 0.3s ease-in-out;
+    font-size: 15px;
+}
+
+.footer ul li a:hover{
+    border-bottom: 3px solid var(--main-color);
+}
+
+.footer ul li{
+    display: inline-block;
+    padding: 0 15px;
+}
+
+.footer .copyright{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: 16px;
+    color: white
+}
+
+.borda {
+    border-top: 2px solid var(--main-color);
+}
+
+
+.phone {
+    width: 360px;
+    height: 640px;
+    border-radius: 36px;
+    background: #000;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.phone-screen {
+    width: 100%;
+    height: 100%;
+    background: url('background-image.jpg') no-repeat center center;
+    background-size: cover; /* Ajusta a imagem para cobrir toda a área */
+    border-radius: 36px;
+    padding: 20px;
+    padding-top: 80px; /* Espaço para a câmera e sensores */
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Efeito de vidro mais forte */
+    border: 4px solid #ddd; /* Borda da tela */
+}
+
+
+.phone-top {
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent; /* Fundo branco para o topo */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra no topo mais sutil */
+}
+
+.camera {
+    width: 12px;
+    height: 12px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px; /* Ajuste a posição conforme necessário */
+    transform: translate(-170%, 0); /* Centraliza horizontalmente */
+}
+
+.sensor {
+    width: 40px;
+    height: 6px;
+    background: #000;
+    border-radius: 10px;
+    position: absolute;
+    top: 30px; /* Ajuste a posição conforme necessário */
+    left: 50%;
+    transform: translate(-100%, 0); /* Centraliza horizontalmente */
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 80px); /* Ajuste para não cobrir a área da câmera e sensores */
+    text-align: center;
+    margin-top: 100px; /* Ajuste o valor conforme necessário */
+
+}
+
+.app-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.phone-button {
+    width: 80px;
+    height: 12px;
+    background: #000;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.phone-bottom {
+    width: 100%;
+    height: 20px;
+    background: #444;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 36px 36px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.phone-speaker {
+    width: 60px;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.phone-speaker::before {
+    content: "";
+    width: 12px;
+    height: 6px;
+    background: #555;
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 3px;
+}
+
+/* Estilo original da imagem */
+.app-icon-cell {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+    animation: moveAndPulse 5s infinite ease-in-out;
+}
+
+/* Animação para pulsar e se mover */
+@keyframes moveAndPulse {
+    0% {
+        transform: scale(1) translate(0, 0); /* Estado inicial */
+    }
+    25% {
+        transform: scale(1.1) translate(10px, -10px); /* Aumenta e move ligeiramente */
+    }
+    50% {
+        transform: scale(0.9) translate(-10px, 10px); /* Diminui e move para o lado oposto */
+    }
+    75% {
+        transform: scale(1.05) translate(-5px, -5px); /* Aumenta novamente e move para outro lado */
+    }
+    100% {
+        transform: scale(1) translate(0, 0); /* Volta ao estado inicial */
+    }
+}
+
+
+.logo-cell {
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+    position: absolute;
+    top: 30px; /* Ajuste a posição vertical conforme necessário */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta a posição para o centro horizontalmente */
+}
+
+
+#microfone-button {
+    background-color: #4CAF50; /* Verde */
+    position: relative;
+    
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 5rem;
+    cursor: pointer;   
+    border-radius: 50%;
+    transition: transform 0.3s;
+    border: none;
+    width: 9rem; /* Ajuste a largura conforme necessário */
+    height: 9rem; /* Ajuste a altura conforme necessário */
+}
+
+#camera-button, .btn-x {
+    font-size: 3rem; /* Ajuste o tamanho da fonte conforme necessário */
+    width: 7rem; /* Ajuste a largura conforme necessário */
+    height: 7rem; /* Ajuste a altura conforme necessário */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+    display: inline-flex;
+    background-image: url('background-btn.png'); /* Coloque o caminho da sua imagem aqui */
+    background-size: cover; /* Ajusta a imagem para cobrir todo o botão */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Impede que a imagem se repita */
+    border: none;
+    border-radius: 50%; /* Torna o botão redondo */
+}
+
+
+
+.trilho { /* Corrigido de .triho para .trilho */
+    width: 65px;
+    height: 32px;
+    background-color: rgb(50, 50, 50);
+    border-radius: 16px; /* Use 16px para bordas arredondadas */
+    cursor: pointer;
+    right: 12%; /* Alinha à direita conforme necessário */
+    position: relative; /* Adicionado para garantir o posicionamento correto */
+}
+
+.trilho .indicador {
+    width: 30px;
+    height: 31px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 50%;
+    transform: scale(0.9);
+    position: absolute;
+    left: 0;
+    transition: .5s;
+}
+
+.trilho.dark {
+    background-color: #c3c3c3;
+}
+
+.trilho.dark .indicador {
+    left: 34px;
+    background-color: white;
+}
